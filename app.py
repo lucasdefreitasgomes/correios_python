@@ -63,5 +63,4 @@ def rastreios():
         return render_template('rastreamento.html', informacoes=informacoes, termo_pesquisa=termo_pesquisa, tipo_pesquisa=tipo_pesquisa, codigos=codigos)
 
 if __name__ == '__main__':
-    app.debug = True
-    app.run()
+    app.run(debug=True)
