@@ -2,6 +2,12 @@ from flask import Flask, render_template, request
 from openpyxl import load_workbook
 import requests
 from lxml import html
+import urllib3
+from urllib3.exceptions import InsecureRequestWarning
+
+# Desativar os avisos de certificado SSL
+urllib3.disable_warnings(InsecureRequestWarning)
+
 
 app = Flask(__name__)
 
@@ -19,7 +25,7 @@ def carregar_dados_planilha():
 # Função para buscar informações de rastreamento para um código específico diretamente no site dos Correios
 def buscar_informacoes_rastreamento(codigo):
     url = f'https://www.sitecorreios.com.br/{codigo}'  # Substitua 'linkdoseucodigo' pelo link correto
-    response = requests.get(url)
+    response = requests.get(url, verify=False)
     if response.status_code == 200:
         tree = html.fromstring(response.content)
         informacoes = tree.xpath("//div[contains(@class, 'relative pb-10') or contains(@class, 'ml-5 flex flex-col mt-2')]")
