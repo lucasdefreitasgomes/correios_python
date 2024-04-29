@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rastreamento de Objetos</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Cor de fundo cinza claro */
+            color: #343a40; /* Texto escuro */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff; /* Fundo branco */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        }
+
+        .titulo {
+            color: #007bff; /* Cor azul para o título */
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .formulario {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .codigo-objeto {
+            font-size: 18px; /* Tamanho maior para o código do objeto */
+            color: #6c757d; /* Cinza para o código do objeto */
+        }
+
+        .placa {
+            font-size: 20px; /* Tamanho maior para a placa */
+            color: #28a745; /* Cor verde para a placa */
+        }
+
+        .informacao {
+            color: #6c757d; /* Texto cinza para as informações */
+        }
+
+        .mensagem-erro {
+            color: #dc3545; /* Cor vermelha para a mensagem de erro */
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="titulo">Rastreamento de Objetos</h1>
+        <form action="/" method="post" class="formulario">
+            <div class="input-field">
+                <input type="text" id="termo_pesquisa" name="termo_pesquisa" class="validate" value="{{ termo_pesquisa }}">
+                <label for="termo_pesquisa">Pesquisar por placa ou código de rastreamento (separe múltiplos códigos por vírgula)</label>
+            </div>
+            <div class="input-field">
+                <p>
+                    <label>
+                        <input name="tipo_pesquisa" type="radio" value="placa" {% if tipo_pesquisa == 'placa' %}checked{% endif %}/>
+                        <span>Placa</span>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input name="tipo_pesquisa" type="radio" value="codigo" {% if tipo_pesquisa == 'codigo' %}checked{% endif %}/>
+                        <span>Código de Rastreamento</span>
+                    </label>
+                </p>
+            </div>
+            <button type="submit" class="btn waves-effect waves-light">Pesquisar<i class="material-icons right">search</i></button>
+            <a href="/" class="btn waves-effect waves-light">Limpar Pesquisa</a>
+        </form>
+        <ul class="collection">
+            {% for codigo, informacoes in informacoes.items() %}
+                <li class="collection-item">
+                    <h5 class="placa">Placa: {{ codigos[codigo] }}</h5>
+                    <h6 class="codigo-objeto">Código Objeto: {{ codigo }}</h6>
+                    <ul class="collection">
+                        {% for informacao in informacoes %}
+                            <li class="collection-item informacao">{{ informacao }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+        {% if mensagem %}
+            <div class="mensagem-erro">{{ mensagem }}</div>
+        {% endif %}
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>
